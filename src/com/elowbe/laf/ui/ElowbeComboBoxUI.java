@@ -5,8 +5,12 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.IllegalComponentStateException;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Shape;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -21,6 +25,7 @@ import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import javax.swing.plaf.basic.BasicComboPopup;
 import javax.swing.plaf.basic.ComboPopup;
+import javax.swing.filechooser.FileFilter;
 
 import com.elowbe.laf.theme.ElowbeDefaults;
 import com.elowbe.laf.theme.ElowbePalette;
@@ -37,6 +42,7 @@ public class ElowbeComboBoxUI extends BasicComboBoxUI {
         super.installDefaults();
         comboBox.setOpaque(false);
         comboBox.setFocusable(true);
+        comboBox.setLightWeightPopupEnabled(true);
         comboBox.setBorder(new EmptyBorder(0, 0, 0, 0));
         comboBox.setRenderer(new SleekComboRenderer());
         comboBox.setMaximumRowCount(8);
@@ -84,12 +90,19 @@ public class ElowbeComboBoxUI extends BasicComboBoxUI {
             int arrowWidth = arrowButton == null ? 34 : arrowButton.getWidth();
             int textX = 14;
             int maxWidth = Math.max(0, component.getWidth() - arrowWidth - textX - 8);
-            String text = elide(value.toString(), g2, maxWidth);
+            String text = elide(displayText(value), g2, maxWidth);
             int y = (component.getHeight() - g2.getFontMetrics().getHeight()) / 2 + g2.getFontMetrics().getAscent();
             g2.drawString(text, textX, y);
         } finally {
             g2.dispose();
         }
+    }
+
+    private static String displayText(Object value) {
+        if (value instanceof FileFilter) {
+            return ((FileFilter) value).getDescription();
+        }
+        return value.toString();
     }
 
     private String elide(String text, Graphics2D g2, int maxWidth) {
@@ -142,9 +155,11 @@ public class ElowbeComboBoxUI extends BasicComboBoxUI {
         @Override
         public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
                 boolean cellHasFocus) {
-            JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, false, false);
+            JLabel label = (JLabel) super.getListCellRendererComponent(list,
+                    value == null ? "" : displayText(value), index, false, false);
             ElowbePalette palette = PaintUtils.palette();
             label.setOpaque(false);
+            label.setBackground(new Color(0, 0, 0, 0));
             label.setBorder(new EmptyBorder(8, 14, 8, 42));
             label.setForeground(palette.foreground);
             label.putClientProperty("Elowbe.comboSelected", Boolean.valueOf(isSelected && index >= 0));
@@ -183,8 +198,10 @@ public class ElowbeComboBoxUI extends BasicComboBoxUI {
         @SuppressWarnings("rawtypes")
         private SleekComboPopup(javax.swing.JComboBox combo) {
             super(combo);
-            setOpaque(false);
-            setBorder(BorderFactory.createEmptyBorder(6, 0, 0, 0));
+            setOpaque(true);
+            setBorderPainted(false);
+            setBorder(BorderFactory.createEmptyBorder());
+            setBackground(PaintUtils.palette().popover);
         }
 
         @Override
@@ -204,7 +221,10 @@ public class ElowbeComboBoxUI extends BasicComboBoxUI {
             JScrollPane scroller = new JScrollPane(list);
             scroller.setOpaque(false);
             scroller.getViewport().setOpaque(false);
+            scroller.setBackground(new Color(0, 0, 0, 0));
+            scroller.getViewport().setBackground(new Color(0, 0, 0, 0));
             scroller.setBorder(BorderFactory.createEmptyBorder());
+            scroller.setViewportBorder(BorderFactory.createEmptyBorder());
             return scroller;
         }
 
@@ -213,20 +233,39 @@ public class ElowbeComboBoxUI extends BasicComboBoxUI {
             Graphics2D g2 = PaintUtils.prepare(graphics);
             try {
                 ElowbePalette palette = PaintUtils.palette();
-                int top = 6;
-                PaintUtils.fillRound(g2, 0, top, getWidth(), getHeight() - top, ElowbeDefaults.RADIUS_MD,
-                        palette.popover);
-                PaintUtils.drawRound(g2, 0, top, getWidth(), getHeight() - top, ElowbeDefaults.RADIUS_MD,
-                        palette.border);
+                Shape popupShape = PaintUtils.roundedRect(0, 0, getWidth(), getHeight(), ElowbeDefaults.RADIUS_MD);
+                g2.setColor(palette.popover);
+                g2.fillRect(0, 0, getWidth(), getHeight());
+                g2.setColor(palette.popover);
+                g2.fill(popupShape);
+                g2.setClip(popupShape);
+                super.paint(g2);
+                g2.setClip(null);
+                PaintUtils.drawRound(g2, 0, 0, getWidth(), getHeight(), ElowbeDefaults.RADIUS_MD, palette.border);
             } finally {
                 g2.dispose();
             }
-            super.paint(graphics);
         }
 
         @Override
         protected Rectangle computePopupBounds(int px, int py, int pw, int ph) {
-            return super.computePopupBounds(px, py, Math.max(pw, popupWidth()), ph);
+            int rows = Math.max(1, Math.min(comboBox.getMaximumRowCount(), comboBox.getItemCount()));
+            int height = Math.max(ph, rows * list.getFixedCellHeight() + 18);
+            return super.computePopupBounds(px, popupY(py, height), Math.max(pw, popupWidth()), height);
+        }
+
+        private int popupY(int defaultY, int height) {
+            try {
+                Point screenLocation = comboBox.getLocationOnScreen();
+                GraphicsConfiguration configuration = comboBox.getGraphicsConfiguration();
+                Rectangle bounds = configuration == null ? null : configuration.getBounds();
+                if (bounds != null && screenLocation.y + defaultY + height > bounds.y + bounds.height) {
+                    return -height;
+                }
+            } catch (IllegalComponentStateException ex) {
+                return defaultY;
+            }
+            return defaultY;
         }
 
         private int popupWidth() {
@@ -234,7 +273,8 @@ public class ElowbeComboBoxUI extends BasicComboBoxUI {
             for (int index = 0; index < comboBox.getItemCount(); index++) {
                 Object value = comboBox.getItemAt(index);
                 if (value != null) {
-                    width = Math.max(width, comboBox.getFontMetrics(comboBox.getFont()).stringWidth(value.toString()));
+                    width = Math.max(width,
+                            comboBox.getFontMetrics(comboBox.getFont()).stringWidth(displayText(value)));
                 }
             }
             return width + 72;

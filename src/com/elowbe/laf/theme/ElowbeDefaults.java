@@ -16,6 +16,7 @@ import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.FontUIResource;
 
 import com.elowbe.laf.util.ElowbeBorder;
+import com.elowbe.laf.util.ElowbeIcons;
 
 public final class ElowbeDefaults {
     public static final String THEME_KEY = "Elowbe.theme";
@@ -56,12 +57,14 @@ public final class ElowbeDefaults {
         defaults.put("activeCaptionText", palette.foreground);
         defaults.put("inactiveCaptionText", palette.mutedForeground);
 
-        putFont(defaults, baseFont, "Button", "CheckBox", "ComboBox", "Label", "List", "Menu", "MenuItem",
-                "Panel", "PasswordField", "PopupMenu", "RadioButton", "ScrollPane", "Spinner", "TabbedPane", "Table",
-                "TableHeader", "TextArea", "TextField", "TextPane", "ToolTip", "Tree");
+        putFont(defaults, baseFont, "Button", "CheckBox", "ColorChooser", "ComboBox", "FileChooser", "Label", "List",
+                "Menu", "MenuItem", "OptionPane", "Panel", "PasswordField", "PopupMenu", "RadioButton", "ScrollPane",
+                "Spinner", "TabbedPane", "Table", "TableHeader", "TextArea", "TextField", "TextPane", "ToolTip",
+                "Tree");
         defaults.put("Elowbe.font.small", smallFont);
         defaults.put("Elowbe.font.title", titleFont);
         defaults.put("Elowbe.font.mono", monoFont);
+        defaults.put("TableHeader.font", new FontUIResource(smallFont.deriveFont(Font.BOLD)));
 
         installColors(defaults, palette);
         installBorders(defaults, palette);
@@ -81,10 +84,11 @@ public final class ElowbeDefaults {
     private static void installColors(UIDefaults defaults, ElowbePalette palette) {
         putColors(defaults, palette.background, "Panel.background", "Viewport.background", "ScrollPane.background",
                 "RootPane.background", "SplitPane.background", "TabbedPane.background", "ToolBar.background",
-                "MenuBar.background", "PopupMenu.background");
+                "MenuBar.background", "PopupMenu.background", "TableHeader.background");
         putColors(defaults, palette.foreground, "Panel.foreground", "Label.foreground", "Button.foreground",
                 "CheckBox.foreground", "RadioButton.foreground", "TabbedPane.foreground", "Menu.foreground",
-                "MenuItem.foreground", "Table.foreground", "Tree.foreground", "List.foreground");
+                "MenuItem.foreground", "Table.foreground", "TableHeader.foreground", "Tree.foreground",
+                "List.foreground");
         putColors(defaults, palette.card, "Button.background", "TextField.background", "FormattedTextField.background",
                 "PasswordField.background", "TextArea.background", "TextPane.background", "ComboBox.background",
                 "List.background", "Spinner.background", "Table.background", "Tree.background", "MenuItem.background");
@@ -109,6 +113,44 @@ public final class ElowbeDefaults {
         defaults.put("ProgressBar.border", new EmptyBorder(0, 0, 0, 0));
         defaults.put("ToolTip.background", palette.popover);
         defaults.put("ToolTip.foreground", palette.popoverForeground);
+        defaults.put("OptionPane.background", palette.background);
+        defaults.put("OptionPane.foreground", palette.foreground);
+        defaults.put("OptionPane.messageForeground", palette.foreground);
+        defaults.put("OptionPane.questionDialog.titlePane.background", palette.background);
+        defaults.put("OptionPane.errorDialog.titlePane.background", palette.background);
+        defaults.put("OptionPane.warningDialog.titlePane.background", palette.background);
+        defaults.put("FileChooser.background", palette.background);
+        defaults.put("FileChooser.foreground", palette.foreground);
+        defaults.put("FileChooser.listViewBackground", palette.background);
+        defaults.put("FileChooser.listViewForeground", palette.foreground);
+        defaults.put("FileChooser.listViewBorder", new EmptyBorder(6, 6, 6, 6));
+        defaults.put("FileChooser.listViewWindowsStyle", Boolean.FALSE);
+        defaults.put("FileChooser.readOnly", Boolean.FALSE);
+        defaults.put("FileChooser.usesSingleFilePane", Boolean.TRUE);
+        defaults.put("FileChooser.newFolderButtonText", "New Folder");
+        defaults.put("FileChooser.newFolderButtonToolTipText", "Create a new folder");
+        defaults.put("FileChooser.upFolderToolTipText", "Up one level");
+        defaults.put("FileChooser.homeFolderToolTipText", "Home");
+        defaults.put("FileChooser.listViewButtonToolTipText", "List");
+        defaults.put("FileChooser.detailsViewButtonToolTipText", "Details");
+        defaults.put("FileChooser.fileNameHeaderText", "Name");
+        defaults.put("FileChooser.fileSizeHeaderText", "Size");
+        defaults.put("FileChooser.fileTypeHeaderText", "Type");
+        defaults.put("FileChooser.fileDateHeaderText", "Modified");
+        defaults.put("FileChooser.fileAttrHeaderText", "Attributes");
+        defaults.put("FileChooser.acceptAllFileFilterText", "All Files");
+        defaults.put("FileView.directoryIcon", ElowbeIcons.folder(16));
+        defaults.put("FileView.fileIcon", ElowbeIcons.file(16));
+        defaults.put("FileView.computerIcon", ElowbeIcons.drive(16));
+        defaults.put("FileView.hardDriveIcon", ElowbeIcons.drive(16));
+        defaults.put("FileView.floppyDriveIcon", ElowbeIcons.drive(16));
+        defaults.put("FileChooser.newFolderIcon", ElowbeIcons.plus(14));
+        defaults.put("FileChooser.upFolderIcon", ElowbeIcons.arrowLeft(14));
+        defaults.put("FileChooser.homeFolderIcon", ElowbeIcons.home(14));
+        defaults.put("FileChooser.listViewIcon", ElowbeIcons.list(14));
+        defaults.put("FileChooser.detailsViewIcon", ElowbeIcons.details(14));
+        defaults.put("ColorChooser.background", palette.background);
+        defaults.put("ColorChooser.foreground", palette.foreground);
     }
 
     private static void installBorders(UIDefaults defaults, ElowbePalette palette) {
@@ -122,6 +164,9 @@ public final class ElowbeDefaults {
         defaults.put("ScrollPane.border", new ElowbeBorder(palette.border, RADIUS_MD, new Insets(0, 0, 0, 0)));
         defaults.put("ToolTip.border", new ElowbeBorder(palette.border, RADIUS_MD, new Insets(6, 8, 6, 8)));
         defaults.put("PopupMenu.border", new ElowbeBorder(palette.border, RADIUS_MD, new Insets(4, 4, 4, 4)));
+        defaults.put("OptionPane.border", new EmptyBorder(18, 18, 18, 18));
+        defaults.put("OptionPane.messageAreaBorder", new EmptyBorder(0, 0, 8, 0));
+        defaults.put("OptionPane.buttonAreaBorder", new EmptyBorder(12, 0, 8, 0));
         defaults.put("TabbedPane.contentBorderInsets", new Insets(0, 0, 0, 0));
         defaults.put("TabbedPane.tabInsets", new Insets(6, 10, 6, 10));
         defaults.put("Menu.border", new EmptyBorder(6, 8, 6, 8));

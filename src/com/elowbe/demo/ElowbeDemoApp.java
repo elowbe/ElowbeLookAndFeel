@@ -3,6 +3,7 @@ package com.elowbe.demo;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -61,6 +62,13 @@ public final class ElowbeDemoApp {
         copy.add(title, BorderLayout.NORTH);
         copy.add(subtitle, BorderLayout.SOUTH);
 
+        JPanel actions = new JPanel(new FlowLayout(FlowLayout.RIGHT, 8, 0));
+        actions.setOpaque(false);
+
+        JButton dialogs = DemoStyles.button("Dialogs", "outline");
+        dialogs.putClientProperty(ElowbeDefaults.ROUNDED_KEY, Boolean.TRUE);
+        dialogs.addActionListener(event -> DialogDemoApp.showWindow(frame));
+
         JButton toggle = DemoStyles.button(buttonText(), "outline");
         toggle.putClientProperty(ElowbeDefaults.ROUNDED_KEY, Boolean.TRUE);
         toggle.addActionListener(event -> {
@@ -73,8 +81,11 @@ public final class ElowbeDemoApp {
             frame.repaint();
         });
 
+        actions.add(dialogs);
+        actions.add(toggle);
+
         header.add(copy, BorderLayout.WEST);
-        header.add(toggle, BorderLayout.EAST);
+        header.add(actions, BorderLayout.EAST);
         return header;
     }
 

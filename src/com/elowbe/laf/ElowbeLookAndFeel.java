@@ -66,8 +66,11 @@ public class ElowbeLookAndFeel extends BasicLookAndFeel {
                 "ScrollBarUI", packageName + "ElowbeScrollBarUI",
                 "SpinnerUI", packageName + "ElowbeSpinnerUI",
                 "TabbedPaneUI", packageName + "ElowbeTabbedPaneUI",
+                "TableHeaderUI", packageName + "ElowbeTableHeaderUI",
                 "ProgressBarUI", packageName + "ElowbeProgressBarUI",
-                "PanelUI", packageName + "ElowbePanelUI"
+                "PanelUI", packageName + "ElowbePanelUI",
+                "FileChooserUI", packageName + "ElowbeFileChooserUI",
+                "ColorChooserUI", packageName + "ElowbeColorChooserUI"
         };
         table.putDefaults(uiDefaults);
     }
