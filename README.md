@@ -96,11 +96,18 @@ To run a specific demo:
 | Dialogs | `com.elowbe.demo.DialogDemoApp` | Option panes, file chooser, and color chooser |
 | Kanban Board | `com.elowbe.demo.KanbanBoardDemoApp` | Drag-and-drop task board |
 | Note Taking | `com.elowbe.demo.NoteTakingDemoApp` | Searchable notes with categories and preview |
+| Image Cropper | `com.elowbe.demo.ImageCroppingDemoApp` | Standalone image loading, crop preview, and PNG export demo |
 
 Example — run the kanban demo:
 
 ```bash
 mvn exec:java -Dexec.mainClass=com.elowbe.demo.KanbanBoardDemoApp
+```
+
+Example — run the image cropping demo:
+
+```bash
+mvn exec:java -Dexec.mainClass=com.elowbe.demo.ImageCroppingDemoApp
 ```
 
 Or with `java` directly (after `mvn package`):

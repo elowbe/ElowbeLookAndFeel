@@ -202,9 +202,9 @@ public final class ElowbeDefaults {
 
     private static UIDefaults.LazyInputMap fieldInputMap() {
         return new UIDefaults.LazyInputMap(new Object[] {
-                "ctrl C", DefaultEditorKit.copyAction,
-                "ctrl V", DefaultEditorKit.pasteAction,
-                "ctrl X", DefaultEditorKit.cutAction,
+                shortcut("C"), DefaultEditorKit.copyAction,
+                shortcut("V"), DefaultEditorKit.pasteAction,
+                shortcut("X"), DefaultEditorKit.cutAction,
                 "COPY", DefaultEditorKit.copyAction,
                 "PASTE", DefaultEditorKit.pasteAction,
                 "CUT", DefaultEditorKit.cutAction,
@@ -238,16 +238,16 @@ public final class ElowbeDefaults {
                 "ctrl END", DefaultEditorKit.endAction,
                 "ctrl shift HOME", DefaultEditorKit.selectionBeginAction,
                 "ctrl shift END", DefaultEditorKit.selectionEndAction,
-                "ctrl A", DefaultEditorKit.selectAllAction,
+                shortcut("A"), DefaultEditorKit.selectAllAction,
                 "ENTER", JTextField.notifyAction
         });
     }
 
     private static UIDefaults.LazyInputMap multilineInputMap() {
         return new UIDefaults.LazyInputMap(new Object[] {
-                "ctrl C", DefaultEditorKit.copyAction,
-                "ctrl V", DefaultEditorKit.pasteAction,
-                "ctrl X", DefaultEditorKit.cutAction,
+                shortcut("C"), DefaultEditorKit.copyAction,
+                shortcut("V"), DefaultEditorKit.pasteAction,
+                shortcut("X"), DefaultEditorKit.cutAction,
                 "COPY", DefaultEditorKit.copyAction,
                 "PASTE", DefaultEditorKit.pasteAction,
                 "CUT", DefaultEditorKit.cutAction,
@@ -293,10 +293,18 @@ public final class ElowbeDefaults {
                 "ctrl END", DefaultEditorKit.endAction,
                 "ctrl shift HOME", DefaultEditorKit.selectionBeginAction,
                 "ctrl shift END", DefaultEditorKit.selectionEndAction,
-                "ctrl A", DefaultEditorKit.selectAllAction,
+                shortcut("A"), DefaultEditorKit.selectAllAction,
                 "ENTER", DefaultEditorKit.insertBreakAction,
                 "TAB", DefaultEditorKit.insertTabAction
         });
+    }
+
+    private static String shortcut(String key) {
+        return (isMac() ? "meta " : "ctrl ") + key;
+    }
+
+    private static boolean isMac() {
+        return System.getProperty("os.name", "").startsWith("Mac");
     }
 
     private static Font geistMono() {
