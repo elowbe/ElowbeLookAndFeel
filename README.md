@@ -1,14 +1,15 @@
 # Elowbe LookAndFeel
 
-A modern Look and Feel for Java Swing heavily inspired by [shadcn](https://ui.shadcn.com/). 
+A modern Look and Feel for Java Swing heavily inspired by [shadcn](https://ui.shadcn.com/).
 
 <!-- Screenshots — add your images here -->
-<!--
+
 <p align="center">
-  <img src="docs/screenshots/light.png" alt="Elowbe Light theme" width="45%" />
-  <img src="docs/screenshots/dark.png" alt="Elowbe Dark theme" width="45%" />
+ <img width="2287" height="1179" alt="SCR-20260525-blli" src="https://github.com/user-attachments/assets/1e3f493c-aada-400f-a5aa-73be2f53cfa9" />
+<img width="2287" height="1179" alt="SCR-20260525-blig" src="https://github.com/user-attachments/assets/1378a5d1-8884-480f-ae51-812c2b0af11f" />
+
 </p>
--->
+
 
 ## Installation
 
@@ -135,6 +136,10 @@ Elowbe provides custom UI delegates for common components including buttons, tex
 
 Java **17** or later. The project is built with Maven using `--release 17`.
 
+### What font is it using?
+
+The font is [Vercel's Geist](https://vercel.com/font)
+
 ### Can I use Elowbe alongside other Look and Feels?
 
 Yes. Elowbe is a standard Swing `LookAndFeel`. Install it with `Elowbe.install()` or `UIManager.setLookAndFeel(new ElowbeLookAndFeel())` like any other LAF. Only one Look and Feel is active at a time.
@@ -146,3 +151,14 @@ Yes. Elowbe is a cross-platform Swing Look and Feel and runs anywhere Java 17+ a
 ### Where do I report bugs or request features?
 
 Open an issue on [GitHub](https://github.com/elowbe/ElowbeLookAndFeel/issues).
+
+## Additional Screenshots
+<p align="center">
+<img width="1302" height="836" alt="SCR-20260525-bkpl" src="https://github.com/user-attachments/assets/e827414d-963d-4de8-a41e-0dae458cbe70" />
+
+<img width="1302" height="836" alt="SCR-20260525-bkyo" src="https://github.com/user-attachments/assets/5b681cdd-0d29-421d-ad5f-d95ae200565f" />
+
+<img width="530" height="532" alt="SCR-20260525-blra" src="https://github.com/user-attachments/assets/3e03b5d8-ec1d-4a82-8976-16ad3eaac75d" />
+
+</p>
+
