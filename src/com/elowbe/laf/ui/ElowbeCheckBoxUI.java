@@ -66,7 +66,7 @@ public class ElowbeCheckBoxUI extends BasicCheckBoxUI {
         g2.drawRoundRect(rect.x, rect.y, SIZE - 1, SIZE - 1, 8, 8);
         if (selected) {
             g2.setColor(palette.primaryForeground);
-            ElowbeIcons.check(13).paintIcon(button, g2, rect.x + 1, rect.y + 1);
+            ElowbeIcons.check(13).paintIcon(button, g2, rect.x, rect.y - 1);
         }
     }
 

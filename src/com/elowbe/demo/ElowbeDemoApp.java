@@ -69,6 +69,14 @@ public final class ElowbeDemoApp {
         dialogs.putClientProperty(ElowbeDefaults.ROUNDED_KEY, Boolean.TRUE);
         dialogs.addActionListener(event -> DialogDemoApp.showWindow(frame));
 
+        JButton notes = DemoStyles.button("Notes", "outline");
+        notes.putClientProperty(ElowbeDefaults.ROUNDED_KEY, Boolean.TRUE);
+        notes.addActionListener(event -> NoteTakingDemoApp.showWindow(frame));
+
+        JButton kanban = DemoStyles.button("Kanban", "outline");
+        kanban.putClientProperty(ElowbeDefaults.ROUNDED_KEY, Boolean.TRUE);
+        kanban.addActionListener(event -> KanbanBoardDemoApp.showWindow(frame));
+
         JButton toggle = DemoStyles.button(buttonText(), "outline");
         toggle.putClientProperty(ElowbeDefaults.ROUNDED_KEY, Boolean.TRUE);
         toggle.addActionListener(event -> {
@@ -82,6 +90,8 @@ public final class ElowbeDemoApp {
         });
 
         actions.add(dialogs);
+        actions.add(notes);
+        actions.add(kanban);
         actions.add(toggle);
 
         header.add(copy, BorderLayout.WEST);
