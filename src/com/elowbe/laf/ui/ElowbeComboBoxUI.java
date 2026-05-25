@@ -190,7 +190,7 @@ public class ElowbeComboBoxUI extends BasicComboBoxUI {
                 ElowbePalette palette = PaintUtils.palette();
                 if (selected) {
                     PaintUtils.fillRound(g2, 2, 2, getWidth() - 4, getHeight() - 4,
-                            ElowbeDefaults.RADIUS_SM, palette.accent);
+                            ElowbeDefaults.RADIUS_SM, ElowbeMenuPainter.selectionFill(palette));
                 }
             } finally {
                 g2.dispose();

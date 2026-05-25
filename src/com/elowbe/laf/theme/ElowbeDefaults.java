@@ -60,10 +60,10 @@ public final class ElowbeDefaults {
         defaults.put("activeCaptionText", palette.foreground);
         defaults.put("inactiveCaptionText", palette.mutedForeground);
 
-        putFont(defaults, baseFont, "Button", "CheckBox", "ColorChooser", "ComboBox", "FileChooser", "Label", "List",
-                "Menu", "MenuItem", "OptionPane", "Panel", "PasswordField", "PopupMenu", "RadioButton", "ScrollPane",
-                "Spinner", "TabbedPane", "Table", "TableHeader", "TextArea", "TextField", "TextPane", "ToolTip",
-                "Tree");
+        putFont(defaults, baseFont, "Button", "CheckBox", "CheckBoxMenuItem", "ColorChooser", "ComboBox",
+                "FileChooser", "Label", "List", "Menu", "MenuBar", "MenuItem", "OptionPane", "Panel",
+                "PasswordField", "PopupMenu", "RadioButton", "RadioButtonMenuItem", "ScrollPane", "Spinner",
+                "TabbedPane", "Table", "TableHeader", "TextArea", "TextField", "TextPane", "ToolTip", "Tree");
         defaults.put("Elowbe.font.small", smallFont);
         defaults.put("Elowbe.font.title", titleFont);
         defaults.put("Elowbe.font.mono", monoFont);
@@ -87,11 +87,11 @@ public final class ElowbeDefaults {
     private static void installColors(UIDefaults defaults, ElowbePalette palette) {
         putColors(defaults, palette.background, "Panel.background", "Viewport.background", "ScrollPane.background",
                 "RootPane.background", "SplitPane.background", "TabbedPane.background", "ToolBar.background",
-                "MenuBar.background", "PopupMenu.background", "TableHeader.background");
+                "MenuBar.background", "TableHeader.background");
         putColors(defaults, palette.foreground, "Panel.foreground", "Label.foreground", "Button.foreground",
                 "CheckBox.foreground", "RadioButton.foreground", "TabbedPane.foreground", "Menu.foreground",
-                "MenuItem.foreground", "Table.foreground", "TableHeader.foreground", "Tree.foreground",
-                "List.foreground");
+                "MenuItem.foreground", "CheckBoxMenuItem.foreground", "RadioButtonMenuItem.foreground",
+                "Table.foreground", "TableHeader.foreground", "Tree.foreground", "List.foreground");
         putColors(defaults, palette.card, "Button.background", "TextField.background", "FormattedTextField.background",
                 "PasswordField.background", "TextArea.background", "TextPane.background", "ComboBox.background",
                 "List.background", "Spinner.background", "Table.background", "Tree.background", "MenuItem.background");
@@ -107,6 +107,18 @@ public final class ElowbeDefaults {
         putColors(defaults, palette.selectionForeground, "TextField.selectionForeground", "TextArea.selectionForeground",
                 "TextPane.selectionForeground", "List.selectionForeground", "Table.selectionForeground",
                 "Tree.selectionForeground", "ComboBox.selectionForeground");
+        putColors(defaults, palette.popover, "PopupMenu.background", "Menu.background", "CheckBoxMenuItem.background",
+                "RadioButtonMenuItem.background");
+        putColors(defaults, palette.accent, "Menu.selectionBackground", "MenuItem.selectionBackground",
+                "CheckBoxMenuItem.selectionBackground", "RadioButtonMenuItem.selectionBackground");
+        putColors(defaults, palette.foreground, "Menu.selectionForeground", "MenuItem.selectionForeground",
+                "CheckBoxMenuItem.selectionForeground", "RadioButtonMenuItem.selectionForeground",
+                "Menu.acceleratorSelectionForeground", "MenuItem.acceleratorSelectionForeground",
+                "CheckBoxMenuItem.acceleratorSelectionForeground", "RadioButtonMenuItem.acceleratorSelectionForeground");
+        putColors(defaults, palette.mutedForeground, "Menu.acceleratorForeground", "MenuItem.acceleratorForeground",
+                "CheckBoxMenuItem.acceleratorForeground", "RadioButtonMenuItem.acceleratorForeground",
+                "Menu.disabledForeground", "MenuItem.disabledForeground", "CheckBoxMenuItem.disabledForeground",
+                "RadioButtonMenuItem.disabledForeground");
         putColors(defaults, palette.border, "Separator.foreground", "Separator.background", "Table.gridColor",
                 "Tree.hash");
         defaults.put("ProgressBar.foreground", palette.primary);
@@ -166,14 +178,16 @@ public final class ElowbeDefaults {
         defaults.put("Spinner.border", new EmptyBorder(0, 0, 0, 0));
         defaults.put("ScrollPane.border", new ElowbeBorder(palette.border, RADIUS_MD, new Insets(0, 0, 0, 0)));
         defaults.put("ToolTip.border", new ElowbeBorder(palette.border, RADIUS_MD, new Insets(6, 8, 6, 8)));
-        defaults.put("PopupMenu.border", new ElowbeBorder(palette.border, RADIUS_MD, new Insets(4, 4, 4, 4)));
+        defaults.put("PopupMenu.border", new EmptyBorder(6, 6, 6, 6));
         defaults.put("OptionPane.border", new EmptyBorder(18, 18, 18, 18));
         defaults.put("OptionPane.messageAreaBorder", new EmptyBorder(0, 0, 8, 0));
         defaults.put("OptionPane.buttonAreaBorder", new EmptyBorder(12, 0, 8, 0));
         defaults.put("TabbedPane.contentBorderInsets", new Insets(0, 0, 0, 0));
         defaults.put("TabbedPane.tabInsets", new Insets(6, 10, 6, 10));
-        defaults.put("Menu.border", new EmptyBorder(6, 8, 6, 8));
-        defaults.put("MenuItem.border", new EmptyBorder(6, 8, 6, 8));
+        defaults.put("Menu.border", new EmptyBorder(6, 10, 6, 10));
+        defaults.put("MenuItem.border", new EmptyBorder(7, 10, 7, 10));
+        defaults.put("CheckBoxMenuItem.border", new EmptyBorder(7, 10, 7, 10));
+        defaults.put("RadioButtonMenuItem.border", new EmptyBorder(7, 10, 7, 10));
     }
 
     private static void installMetrics(UIDefaults defaults, ElowbePalette palette) {

@@ -21,6 +21,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.metal.MetalFileChooserUI;
 
@@ -30,6 +32,13 @@ import com.elowbe.laf.util.ElowbeBorder;
 import com.elowbe.laf.util.PaintUtils;
 
 public class ElowbeFileChooserUI extends MetalFileChooserUI {
+    private static final Dimension DEFAULT_SIZE = new Dimension(880, 620);
+    private static final int NAME_COLUMN_WIDTH = 560;
+    private static final int SIZE_COLUMN_WIDTH = 82;
+    private static final int TYPE_COLUMN_WIDTH = 110;
+    private static final int MODIFIED_COLUMN_WIDTH = 132;
+    private static final int ATTRIBUTES_COLUMN_WIDTH = 96;
+
     public static ComponentUI createUI(JComponent component) {
         return new ElowbeFileChooserUI((JFileChooser) component);
     }
@@ -51,11 +60,43 @@ public class ElowbeFileChooserUI extends MetalFileChooserUI {
         fileChooser.setBackground(palette.background);
         fileChooser.setForeground(palette.foreground);
         fileChooser.setBorder(new EmptyBorder(18, 18, 18, 18));
+        fileChooser.setPreferredSize(DEFAULT_SIZE);
+        fileChooser.setMinimumSize(new Dimension(720, 480));
     }
 
     private void styleFileChooser(JFileChooser fileChooser) {
         style(fileChooser);
-        SwingUtilities.invokeLater(() -> style(fileChooser));
+        SwingUtilities.invokeLater(() -> {
+            showDetailsView(fileChooser);
+            style(fileChooser);
+        });
+    }
+
+    private void showDetailsView(JFileChooser fileChooser) {
+        String detailsToolTip = UIManager.getString("FileChooser.detailsViewButtonToolTipText");
+        AbstractButton detailsButton = findButtonByToolTip(fileChooser, detailsToolTip);
+        if (detailsButton != null && !detailsButton.isSelected()) {
+            detailsButton.doClick(0);
+        }
+    }
+
+    private AbstractButton findButtonByToolTip(Component component, String toolTip) {
+        if (toolTip != null && component instanceof AbstractButton) {
+            AbstractButton button = (AbstractButton) component;
+            if (toolTip.equals(button.getToolTipText())) {
+                return button;
+            }
+        }
+
+        if (component instanceof Container) {
+            for (Component child : ((Container) component).getComponents()) {
+                AbstractButton button = findButtonByToolTip(child, toolTip);
+                if (button != null) {
+                    return button;
+                }
+            }
+        }
+        return null;
     }
 
     private void style(Component component) {
@@ -129,9 +170,45 @@ public class ElowbeFileChooserUI extends MetalFileChooserUI {
         table.setShowGrid(false);
         table.setIntercellSpacing(new java.awt.Dimension(0, 0));
         table.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
+        table.setFillsViewportHeight(true);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        configureDetailsColumns(table);
         if (table.getTableHeader() != null) {
             styleTableHeader(table.getTableHeader(), palette);
         }
+    }
+
+    private void configureDetailsColumns(JTable table) {
+        TableColumnModel columns = table.getColumnModel();
+        for (int i = 0; i < columns.getColumnCount(); i++) {
+            TableColumn column = columns.getColumn(i);
+            String header = String.valueOf(column.getHeaderValue());
+            int width = detailColumnWidth(header);
+            column.setMinWidth(width == NAME_COLUMN_WIDTH ? 240 : width - 16);
+            column.setPreferredWidth(width);
+            column.setMaxWidth(width == NAME_COLUMN_WIDTH ? Integer.MAX_VALUE : width + 42);
+        }
+    }
+
+    private int detailColumnWidth(String header) {
+        if (matchesHeader(header, "FileChooser.fileSizeHeaderText")) {
+            return SIZE_COLUMN_WIDTH;
+        }
+        if (matchesHeader(header, "FileChooser.fileTypeHeaderText")) {
+            return TYPE_COLUMN_WIDTH;
+        }
+        if (matchesHeader(header, "FileChooser.fileDateHeaderText")) {
+            return MODIFIED_COLUMN_WIDTH;
+        }
+        if (matchesHeader(header, "FileChooser.fileAttrHeaderText")) {
+            return ATTRIBUTES_COLUMN_WIDTH;
+        }
+        return NAME_COLUMN_WIDTH;
+    }
+
+    private boolean matchesHeader(String header, String defaultsKey) {
+        String expected = UIManager.getString(defaultsKey);
+        return expected != null && expected.equals(header);
     }
 
     private void styleTableHeader(JTableHeader header, ElowbePalette palette) {
