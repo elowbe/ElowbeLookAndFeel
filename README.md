@@ -169,3 +169,14 @@ Yes. Elowbe is a cross-platform Swing Look and Feel and runs anywhere Java 17+ a
 
 Open an issue on [GitHub](https://github.com/elowbe/ElowbeLookAndFeel/issues).
 
+
+## Additional Screenshots
+
+<p align="center">
+
+<img width="1162" height="706" alt="Screenshot 2026-05-25 at 10 17 31 AM" src="https://github.com/user-attachments/assets/875e52e9-9338-49f7-993a-38c5be46231d" />
+<img width="2330" height="1347" alt="elowbe-notes-light-crop" src="https://github.com/user-attachments/assets/75d07c98-f107-42d4-ad73-7d60093f411d" />
+
+
+  
+</p>
