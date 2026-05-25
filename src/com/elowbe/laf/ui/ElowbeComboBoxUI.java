@@ -11,6 +11,7 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -33,6 +34,8 @@ import com.elowbe.laf.util.ElowbeIcons;
 import com.elowbe.laf.util.PaintUtils;
 
 public class ElowbeComboBoxUI extends BasicComboBoxUI {
+    private final MouseListener cursorListener = ElowbeCursorSupport.handCursorOnHover();
+
     public static ComponentUI createUI(JComponent component) {
         return new ElowbeComboBoxUI();
     }
@@ -46,6 +49,19 @@ public class ElowbeComboBoxUI extends BasicComboBoxUI {
         comboBox.setBorder(new EmptyBorder(0, 0, 0, 0));
         comboBox.setRenderer(new SleekComboRenderer());
         comboBox.setMaximumRowCount(8);
+    }
+
+    @Override
+    protected void installListeners() {
+        super.installListeners();
+        comboBox.addMouseListener(cursorListener);
+    }
+
+    @Override
+    protected void uninstallListeners() {
+        comboBox.removeMouseListener(cursorListener);
+        ElowbeCursorSupport.restoreCursor(comboBox);
+        super.uninstallListeners();
     }
 
     @Override
@@ -214,6 +230,7 @@ public class ElowbeComboBoxUI extends BasicComboBoxUI {
             list.setSelectionForeground(PaintUtils.palette().foreground);
             list.setBackground(PaintUtils.palette().popover);
             list.setForeground(PaintUtils.palette().foreground);
+            list.addMouseListener(ElowbeCursorSupport.handCursorOnHover());
         }
 
         @Override

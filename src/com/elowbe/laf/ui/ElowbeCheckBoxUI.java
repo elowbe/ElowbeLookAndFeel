@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.BasicStroke;
+import java.awt.event.MouseListener;
 
 import javax.swing.AbstractButton;
 import javax.swing.JComponent;
@@ -19,6 +20,7 @@ import com.elowbe.laf.util.PaintUtils;
 
 public class ElowbeCheckBoxUI extends BasicCheckBoxUI {
     private static final int SIZE = 15;
+    private final MouseListener cursorListener = ElowbeCursorSupport.handCursorOnHover();
 
     public static ComponentUI createUI(JComponent component) {
         return new ElowbeCheckBoxUI();
@@ -30,6 +32,19 @@ public class ElowbeCheckBoxUI extends BasicCheckBoxUI {
         button.setOpaque(false);
         button.setIconTextGap(7);
         button.setRolloverEnabled(true);
+    }
+
+    @Override
+    protected void installListeners(AbstractButton button) {
+        super.installListeners(button);
+        button.addMouseListener(cursorListener);
+    }
+
+    @Override
+    protected void uninstallListeners(AbstractButton button) {
+        button.removeMouseListener(cursorListener);
+        ElowbeCursorSupport.restoreCursor(button);
+        super.uninstallListeners(button);
     }
 
     @Override

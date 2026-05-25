@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
 import javax.swing.plaf.ComponentUI;
@@ -14,6 +16,18 @@ import com.elowbe.laf.theme.ElowbePalette;
 import com.elowbe.laf.util.PaintUtils;
 
 public class ElowbeTabbedPaneUI extends BasicTabbedPaneUI {
+    private final MouseAdapter cursorListener = new MouseAdapter() {
+        @Override
+        public void mouseMoved(MouseEvent event) {
+            updateCursor(event);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent event) {
+            ElowbeCursorSupport.restoreCursor(tabPane);
+        }
+    };
+
     public static ComponentUI createUI(JComponent component) {
         return new ElowbeTabbedPaneUI();
     }
@@ -22,6 +36,21 @@ public class ElowbeTabbedPaneUI extends BasicTabbedPaneUI {
     protected void installDefaults() {
         super.installDefaults();
         tabPane.setOpaque(false);
+    }
+
+    @Override
+    protected void installListeners() {
+        super.installListeners();
+        tabPane.addMouseListener(cursorListener);
+        tabPane.addMouseMotionListener(cursorListener);
+    }
+
+    @Override
+    protected void uninstallListeners() {
+        tabPane.removeMouseMotionListener(cursorListener);
+        tabPane.removeMouseListener(cursorListener);
+        ElowbeCursorSupport.restoreCursor(tabPane);
+        super.uninstallListeners();
     }
 
     @Override
@@ -60,5 +89,14 @@ public class ElowbeTabbedPaneUI extends BasicTabbedPaneUI {
     @Override
     protected void paintFocusIndicator(Graphics graphics, int tabPlacement, Rectangle[] rects, int tabIndex,
             Rectangle iconRect, Rectangle textRect, boolean isSelected) {
+    }
+
+    private void updateCursor(MouseEvent event) {
+        int tabIndex = tabForCoordinate(tabPane, event.getX(), event.getY());
+        if (tabIndex >= 0 && tabPane.isEnabled() && tabPane.isEnabledAt(tabIndex)) {
+            ElowbeCursorSupport.setHandCursor(tabPane);
+        } else {
+            ElowbeCursorSupport.restoreCursor(tabPane);
+        }
     }
 }

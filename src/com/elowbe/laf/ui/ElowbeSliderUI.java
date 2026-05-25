@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.BasicStroke;
+import java.awt.event.MouseListener;
 
 import javax.swing.JComponent;
 import javax.swing.JSlider;
@@ -15,6 +16,8 @@ import com.elowbe.laf.theme.ElowbePalette;
 import com.elowbe.laf.util.PaintUtils;
 
 public class ElowbeSliderUI extends BasicSliderUI {
+    private final MouseListener cursorListener = ElowbeCursorSupport.handCursorOnHover();
+
     public ElowbeSliderUI(JSlider slider) {
         super(slider);
     }
@@ -28,6 +31,19 @@ public class ElowbeSliderUI extends BasicSliderUI {
         super.installUI(component);
         component.setOpaque(false);
         component.setFocusable(false);
+    }
+
+    @Override
+    protected void installListeners(JSlider slider) {
+        super.installListeners(slider);
+        slider.addMouseListener(cursorListener);
+    }
+
+    @Override
+    protected void uninstallListeners(JSlider slider) {
+        slider.removeMouseListener(cursorListener);
+        ElowbeCursorSupport.restoreCursor(slider);
+        super.uninstallListeners(slider);
     }
 
     @Override

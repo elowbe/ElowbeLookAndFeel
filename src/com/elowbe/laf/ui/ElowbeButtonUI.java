@@ -3,6 +3,7 @@ package com.elowbe.laf.ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.MouseListener;
 
 import javax.swing.AbstractButton;
 import javax.swing.JComponent;
@@ -14,6 +15,8 @@ import com.elowbe.laf.theme.ElowbePalette;
 import com.elowbe.laf.util.PaintUtils;
 
 public class ElowbeButtonUI extends BasicButtonUI {
+    private final MouseListener cursorListener = ElowbeCursorSupport.handCursorOnHover();
+
     public static ComponentUI createUI(JComponent component) {
         return new ElowbeButtonUI();
     }
@@ -26,6 +29,19 @@ public class ElowbeButtonUI extends BasicButtonUI {
         button.setFocusPainted(false);
         button.setRolloverEnabled(true);
         button.setBorderPainted(false);
+    }
+
+    @Override
+    protected void installListeners(AbstractButton button) {
+        super.installListeners(button);
+        button.addMouseListener(cursorListener);
+    }
+
+    @Override
+    protected void uninstallListeners(AbstractButton button) {
+        button.removeMouseListener(cursorListener);
+        ElowbeCursorSupport.restoreCursor(button);
+        super.uninstallListeners(button);
     }
 
     @Override
