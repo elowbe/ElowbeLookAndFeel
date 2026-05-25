@@ -5,9 +5,7 @@ A modern Look and Feel for Java Swing heavily inspired by [shadcn](https://ui.sh
 <!-- Screenshots — add your images here -->
 
 <p align="center">
- <img width="2287" height="1179" alt="SCR-20260525-blli" src="https://github.com/user-attachments/assets/1e3f493c-aada-400f-a5aa-73be2f53cfa9" />
-<img width="2287" height="1179" alt="SCR-20260525-blig" src="https://github.com/user-attachments/assets/1378a5d1-8884-480f-ae51-812c2b0af11f" />
-
+<img width="2287" height="1179" alt="elowbe-split" src="https://github.com/user-attachments/assets/e3f9ac25-dffd-4a5b-bf95-af4b9783f37e" />
 </p>
 
 
@@ -20,7 +18,19 @@ You need **Java 17** or later.
 1. Open the [Releases](https://github.com/elowbe/ElowbeLookAndFeel/releases) page.
 2. Download `ElowbeLookAndFeel-<version>.jar`.
 3. Add the JAR to your application's classpath (build tool dependency, `-cp`, or IDE library).
-
+4. Add [JIconFont](https://jiconfont.github.io/swing) to your dependecies
+```xml
+<dependency>
+  <groupId>com.github.jiconfont</groupId>
+  <artifactId>jiconfont-swing</artifactId>
+  <version>1.0.0</version>
+</dependency>
+<dependency>
+  <groupId>com.github.jiconfont</groupId>
+  <artifactId>jiconfont-font_awesome</artifactId>
+  <version>4.7.0.1</version>
+</dependency>
+```
 ### Option 2: Build from source
 
 ```bash
@@ -151,14 +161,4 @@ Yes. Elowbe is a cross-platform Swing Look and Feel and runs anywhere Java 17+ a
 ### Where do I report bugs or request features?
 
 Open an issue on [GitHub](https://github.com/elowbe/ElowbeLookAndFeel/issues).
-
-## Additional Screenshots
-<p align="center">
-<img width="1302" height="836" alt="SCR-20260525-bkpl" src="https://github.com/user-attachments/assets/e827414d-963d-4de8-a41e-0dae458cbe70" />
-
-<img width="1302" height="836" alt="SCR-20260525-bkyo" src="https://github.com/user-attachments/assets/5b681cdd-0d29-421d-ad5f-d95ae200565f" />
-
-<img width="530" height="532" alt="SCR-20260525-blra" src="https://github.com/user-attachments/assets/3e03b5d8-ec1d-4a82-8976-16ad3eaac75d" />
-
-</p>
 
