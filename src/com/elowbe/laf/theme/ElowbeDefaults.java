@@ -6,8 +6,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Insets;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
@@ -185,17 +183,11 @@ public final class ElowbeDefaults {
     }
 
     private static Font geistMono() {
-        Font font = loadFont(Path.of("res", "GeistMono-Medium.ttf"));
-        if (font != null) {
-            return font;
-        }
-
-        try (InputStream stream = ElowbeDefaults.class.getClassLoader()
-                .getResourceAsStream("res/GeistMono-Medium.ttf")) {
+        try (InputStream stream = ElowbeDefaults.class.getResourceAsStream("/GeistMono-Medium.ttf")) {
             if (stream != null) {
-                Font resourceFont = Font.createFont(Font.TRUETYPE_FONT, stream);
-                GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(resourceFont);
-                return resourceFont;
+                Font font = Font.createFont(Font.TRUETYPE_FONT, stream);
+                GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
+                return font;
             }
         } catch (FontFormatException | IOException ex) {
             // Fall through to the system fallback when the bundled font cannot be parsed.
@@ -204,19 +196,6 @@ public final class ElowbeDefaults {
         String os = System.getProperty("os.name", "").toLowerCase();
         String fallback = os.contains("mac") ? "SF Pro Text" : os.contains("win") ? "Segoe UI" : "SansSerif";
         return new Font(fallback, Font.PLAIN, 13);
-    }
-
-    private static Font loadFont(Path path) {
-        if (!Files.isRegularFile(path)) {
-            return null;
-        }
-        try (InputStream stream = Files.newInputStream(path)) {
-            Font font = Font.createFont(Font.TRUETYPE_FONT, stream);
-            GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(font);
-            return font;
-        } catch (FontFormatException | IOException ex) {
-            return null;
-        }
     }
 
     private static void putFont(UIDefaults defaults, FontUIResource font, String... prefixes) {

@@ -1,2 +1,3 @@
 *.prefs
 /target
+.DS_Store
