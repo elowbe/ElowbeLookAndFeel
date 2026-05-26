@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.ComponentUI;
 import javax.swing.plaf.basic.BasicFormattedTextFieldUI;
@@ -79,7 +80,7 @@ public class ElowbeSpinnerUI extends BasicSpinnerUI {
         private static final long serialVersionUID = 1L;
 
         private SpinnerNumberEditor(JSpinner spinner) {
-            super(spinner, "#");
+            super(spinner, numberPattern(spinner));
             setOpaque(false);
             setBorder(new EmptyBorder(0, 0, 0, 0));
         }
@@ -97,6 +98,25 @@ public class ElowbeSpinnerUI extends BasicSpinnerUI {
                 g2.dispose();
             }
         }
+    }
+
+    private static String numberPattern(JSpinner spinner) {
+        if (!(spinner.getModel() instanceof SpinnerNumberModel)) {
+            return "#";
+        }
+        SpinnerNumberModel model = (SpinnerNumberModel) spinner.getModel();
+        if (isFractional(model.getValue()) || isFractional(model.getStepSize())) {
+            return "0.######";
+        }
+        return "#";
+    }
+
+    private static boolean isFractional(Object value) {
+        if (!(value instanceof Number)) {
+            return false;
+        }
+        double number = ((Number) value).doubleValue();
+        return Math.abs(number - Math.rint(number)) > 0.0000001;
     }
 
     private static NumberTextRenderer numberTextRenderer(JSpinner spinner) {

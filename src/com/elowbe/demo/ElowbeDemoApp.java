@@ -77,6 +77,10 @@ public final class ElowbeDemoApp {
         kanban.putClientProperty(ElowbeDefaults.ROUNDED_KEY, Boolean.TRUE);
         kanban.addActionListener(event -> KanbanBoardDemoApp.showWindow(frame));
 
+        JButton nodes = DemoStyles.button("Nodes", "outline");
+        nodes.putClientProperty(ElowbeDefaults.ROUNDED_KEY, Boolean.TRUE);
+        nodes.addActionListener(event -> NodeGraphDemoApp.showWindow(frame));
+
         JButton toggle = DemoStyles.button(buttonText(), "outline");
         toggle.putClientProperty(ElowbeDefaults.ROUNDED_KEY, Boolean.TRUE);
         toggle.addActionListener(event -> {
@@ -92,6 +96,7 @@ public final class ElowbeDemoApp {
         actions.add(dialogs);
         actions.add(notes);
         actions.add(kanban);
+        actions.add(nodes);
         actions.add(toggle);
 
         header.add(copy, BorderLayout.WEST);

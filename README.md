@@ -97,6 +97,7 @@ To run a specific demo:
 | Kanban Board | `com.elowbe.demo.KanbanBoardDemoApp` | Drag-and-drop task board |
 | Note Taking | `com.elowbe.demo.NoteTakingDemoApp` | Searchable notes with categories and preview |
 | Image Cropper | `com.elowbe.demo.ImageCroppingDemoApp` | Standalone image loading, crop preview, and PNG/JPEG export demo |
+| Node Graph | `com.elowbe.demo.NodeGraphDemoApp` | Draggable modular nodes with colored terminals and connections |
 
 Example — run the kanban demo:
 
